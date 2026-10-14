@@ -1,0 +1,58 @@
+[
+  {
+    "label": "High risk: cash on delivery, repeat returner",
+    "order": {
+      "order_id": "SAMPLE-1001",
+      "customer_id": "KC104433",
+      "sku": "KH-RV-03",
+      "sales_channel": "marketplace",
+      "payment_mode": "cod",
+      "discount_pct": 10,
+      "qty": 1,
+      "promised_delivery_days": 9,
+      "delivery_pincode": "440365",
+      "customer_prior_orders": 4,
+      "customer_prior_returns": 2,
+      "delivery_note": "Call before delivery",
+      "is_gift": true,
+      "is_shield": false
+    }
+  },
+  {
+    "label": "Low risk: prepaid, no returns",
+    "order": {
+      "order_id": "SAMPLE-1002",
+      "customer_id": "KC102883",
+      "sku": "KH-CF-01",
+      "sales_channel": "app",
+      "payment_mode": "prepaid_upi",
+      "discount_pct": 5,
+      "qty": 1,
+      "promised_delivery_days": 3,
+      "delivery_pincode": "440365",
+      "customer_prior_orders": 3,
+      "customer_prior_returns": 0,
+      "is_gift": false,
+      "is_shield": false
+    }
+  },
+  {
+    "label": "Shield member with data problems",
+    "order": {
+      "order_id": "SAMPLE-1003",
+      "customer_id": "KC999999",
+      "sku": "KH-AF-01",
+      "sales_channel": "web",
+      "payment_mode": "cod",
+      "discount_pct": 0,
+      "qty": 1,
+      "order_value_inr": 519900,
+      "promised_delivery_days": 7,
+      "delivery_pincode": "000000",
+      "customer_prior_orders": 1,
+      "customer_prior_returns": 1,
+      "is_gift": false,
+      "is_shield": true
+    }
+  }
+]

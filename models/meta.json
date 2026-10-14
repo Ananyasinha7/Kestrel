@@ -1,0 +1,58 @@
+{
+  "model": "logreg",
+  "version": "logreg-20260630",
+  "validation": {
+    "auc": 0.7837993251527087,
+    "pr_auc": 0.41264554290005073,
+    "accuracy": 0.8960489181561618,
+    "majority_accuracy": 0.8847601128880527,
+    "precision_top_5pct": 0.5700934579439252,
+    "precision_top_10pct": 0.4225352112676056,
+    "precision_top_25pct": 0.2781954887218045
+  },
+  "thresholds": {
+    "call": 0.1565217391304348,
+    "watch": 0.11180124223602485
+  },
+  "list_prices": {
+    "KH-AF-01": 5199.0,
+    "KH-AF-02": 6499.0,
+    "KH-AF-03": 8773.0,
+    "KH-MG-01": 3199.0,
+    "KH-MG-02": 3999.0,
+    "KH-MG-03": 5398.0,
+    "KH-WP-01": 11999.0,
+    "KH-WP-02": 14999.0,
+    "KH-WP-03": 20248.0,
+    "KH-RV-01": 17599.0,
+    "KH-RV-02": 21999.0,
+    "KH-RV-03": 29698.0,
+    "KH-IC-01": 2399.0,
+    "KH-IC-02": 2999.0,
+    "KH-IC-03": 4048.0,
+    "KH-CF-01": 2799.0,
+    "KH-CF-02": 3499.0,
+    "KH-CF-03": 4723.0,
+    "KH-RH-01": 1999.0,
+    "KH-RH-02": 2499.0,
+    "KH-RH-03": 3373.0
+  },
+  "versions": {
+    "scikit-learn": "1.8.0",
+    "pandas": "3.0.2"
+  },
+  "categories": {
+    "sales_channel": [
+      "app",
+      "marketplace",
+      "partner_outlet",
+      "web"
+    ],
+    "payment_mode": [
+      "cod",
+      "emi",
+      "prepaid_card",
+      "prepaid_upi"
+    ]
+  }
+}

@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kestrel Home return risk</title>
+<style>
+:root {
+  --bg: #f6f6f4;
+  --surface: #ffffff;
+  --text: #1c1d1f;
+  --muted: #62666d;
+  --border: #e2e4e7;
+  --accent: #1f4e79;
+  --accent-text: #ffffff;
+  --ring: rgba(31, 78, 121, 0.16);
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --call: #a4262c;
+  --call-bg: #fbeaea;
+  --watch: #8a5a00;
+  --watch-bg: #fdf3dc;
+  --ok: #1e6b3a;
+  --ok-bg: #e5f3ea;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 40px;
+  --radius: 8px;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141517;
+    --surface: #1d1f22;
+    --text: #ececec;
+    --muted: #9a9fa6;
+    --border: #2e3136;
+    --accent: #6ea6dc;
+    --accent-text: #0e1114;
+    --ring: rgba(110, 166, 220, 0.24);
+    --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --call: #f08a8f;
+    --call-bg: #3a1d1f;
+    --watch: #e8b455;
+    --watch-bg: #382b12;
+    --ok: #7fd09a;
+    --ok-bg: #16301f;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+main {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-3) var(--space-5);
+}
+h1 {
+  font-size: 22px;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  margin: 0 0 var(--space-1);
+}
+h2 {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 var(--space-3);
+  color: var(--muted);
+  font-weight: 700;
+}
+.lede {
+  margin: 0 0 var(--space-4);
+  color: var(--muted);
+  font-size: 14px;
+}
+.layout { display: grid; gap: var(--space-4); }
+@media (min-width: 880px) { .layout { grid-template-columns: 1.15fr 0.85fr; align-items: start; } }
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  box-shadow: var(--card-shadow);
+}
+label[for="sample"] {
+  display: block;
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--border);
+}
+.grid { margin-top: var(--space-3); display: grid; gap: var(--space-3); grid-template-columns: repeat(2, 1fr); }
+.wide { grid-column: 1 / -1; }
+label { display: block; font-size: 13px; font-weight: 500; color: var(--muted); }
+input, select {
+  width: 100%;
+  margin-top: 6px;
+  padding: 8px 11px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+select { cursor: pointer; }
+input:focus-visible, select:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--ring);
+}
+.check {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+}
+.check input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+button {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 18px;
+  color: var(--accent-text);
+  background: var(--accent);
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.05s ease;
+}
+button:hover:not(:disabled) { opacity: 0.9; }
+button:active:not(:disabled) { transform: scale(0.98); }
+button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ring);
+}
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+.actions { display: flex; gap: var(--space-3); align-items: end; }
+.score {
+  font-size: 38px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin: 0 0 var(--space-2);
+  font-variant-numeric: tabular-nums;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.tier-CALL { color: var(--call); background: var(--call-bg); }
+.tier-WATCH { color: var(--watch); background: var(--watch-bg); }
+.tier-OK { color: var(--ok); background: var(--ok-bg); }
+.row {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  margin: 0 0 var(--space-4);
+  flex-wrap: wrap;
+  font-size: 13px;
+}
+ul {
+  margin: 0 0 var(--space-3);
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+li {
+  margin: 0;
+  font-size: 13px;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+}
+.dir {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+p.dir { margin: var(--space-3) 0 0; }
+.notice {
+  color: var(--watch);
+  background: var(--watch-bg);
+  border-color: transparent;
+}
+.error { color: var(--call); font-size: 13px; font-weight: 500; }
+.empty {
+  color: var(--muted);
+  margin: 0;
+  font-size: 13px;
+  padding: var(--space-4) 0;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+<main>
+  <h1>Return risk before dispatch</h1>
+  <p class="lede">Score an order, see why, and decide whether to call the customer.</p>
+  <div class="layout">
+    <section class="panel" aria-labelledby="order-heading">
+      <h2 id="order-heading">Order</h2>
+      <label for="sample">Sample order
+        <select id="sample"></select>
+      </label>
+      <form id="order" class="grid" novalidate>
+        <label>Order ID<input name="order_id" required></label>
+        <label>Customer ID<input name="customer_id"></label>
+        <label>SKU<input name="sku" required></label>
+        <label>Sales channel
+          <select name="sales_channel" required>
+            <option value="app">app</option>
+            <option value="marketplace">marketplace</option>
+            <option value="partner_outlet">partner outlet</option>
+            <option value="web">web</option>
+          </select>
+        </label>
+        <label>Payment mode
+          <select name="payment_mode" required>
+            <option value="cod">cash on delivery</option>
+            <option value="emi">EMI</option>
+            <option value="prepaid_card">prepaid card</option>
+            <option value="prepaid_upi">prepaid UPI</option>
+          </select>
+        </label>
+        <label>Discount (percent)<input name="discount_pct" type="number" min="0" max="100" step="any"></label>
+        <label>Quantity<input name="qty" type="number" min="1" step="1"></label>
+        <label>Order value (Rs, optional)<input name="order_value_inr" type="number" min="0" step="any"></label>
+        <label>Promised delivery days<input name="promised_delivery_days" type="number" min="0" step="1"></label>
+        <label>Delivery pincode<input name="delivery_pincode" inputmode="numeric"></label>
+        <label>Earlier orders<input name="customer_prior_orders" type="number" min="0" step="1"></label>
+        <label>Earlier returns<input name="customer_prior_returns" type="number" min="0" step="1"></label>
+        <label class="wide">Delivery note<input name="delivery_note"></label>
+        <label class="check"><input name="is_gift" type="checkbox">Gift</label>
+        <label class="check"><input name="is_shield" type="checkbox">Shield member</label>
+        <div class="wide actions"><button type="submit" id="submit">Score order</button></div>
+      </form>
+    </section>
+    <section class="panel" aria-labelledby="result-heading" aria-live="polite">
+      <h2 id="result-heading">Result</h2>
+      <div id="result"><p class="empty">Score an order to see the result.</p></div>
+    </section>
+  </div>
+</main>
+<script>
+const form = document.getElementById("order");
+const result = document.getElementById("result");
+const picker = document.getElementById("sample");
+const submit = document.getElementById("submit");
+const numeric = new Set(["discount_pct", "qty", "order_value_inr", "promised_delivery_days", "customer_prior_orders", "customer_prior_returns"]);
+const flags = new Set(["is_gift", "is_shield"]);
+const tierLabels = { CALL: "Call before dispatch", WATCH: "Watch", OK: "Low risk" };
+let samples = [];
+
+function node(tag, className, text) {
+  const el = document.createElement(tag);
+  if (className) el.className = className;
+  if (text !== undefined) el.textContent = text;
+  return el;
+}
+
+function readOrder() {
+  const order = {};
+  for (const el of form.elements) {
+    if (!el.name) continue;
+    if (flags.has(el.name)) {
+      order[el.name] = el.checked;
+    } else if (el.value.trim() !== "") {
+      order[el.name] = numeric.has(el.name) ? Number(el.value) : el.value.trim();
+    }
+  }
+  return order;
+}
+
+function fillOrder(order) {
+  for (const el of form.elements) {
+    if (!el.name) continue;
+    const value = order[el.name];
+    if (flags.has(el.name)) el.checked = Boolean(value);
+    else if (value !== undefined) el.value = value;
+    else el.value = el.tagName === "SELECT" ? el.options[0].value : "";
+  }
+}
+
+function showMessage(text, className) {
+  result.replaceChildren(node("p", className, text));
+}
+
+function showError(body) {
+  const box = node("div");
+  box.append(node("p", "error", body.error.message));
+  const list = node("ul");
+  for (const d of body.error.details) list.append(node("li", "", `${d.field}: ${d.message}`));
+  box.append(list);
+  result.replaceChildren(box);
+}
+
+function showResult(data) {
+  const box = node("div");
+  box.append(node("p", "score", `${(data.score * 100).toFixed(1)}%`));
+  const row = node("div", "row");
+  row.append(node("span", `badge tier-${data.risk_tier}`, tierLabels[data.risk_tier]));
+  row.append(node("span", "", data.action));
+  box.append(row);
+  box.append(node("h2", "", "Why"));
+  const reasons = node("ul");
+  if (data.reasons.length === 0) reasons.append(node("li", "", "No single factor stands out."));
+  for (const r of data.reasons) {
+    const li = node("li", "", r.text);
+    li.append(node("span", "dir", r.direction === "up" ? "  raises risk" : "  lowers risk"));
+    reasons.append(li);
+  }
+  box.append(reasons);
+  if (data.data_warnings.length) {
+    box.append(node("h2", "", "Data warnings"));
+    const warnings = node("ul");
+    for (const w of data.data_warnings) warnings.append(node("li", "notice", w));
+    box.append(warnings);
+  }
+  box.append(node("p", "dir", `Model ${data.model_version}`));
+  result.replaceChildren(box);
+}
+
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  submit.disabled = true;
+  try {
+    const response = await fetch("/score", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(readOrder()),
+    });
+    const body = await response.json().catch(() => null);
+    if (response.ok && body) showResult(body);
+    else if (body && body.error) showError(body);
+    else if (body && body.detail) showMessage(String(body.detail), "error");
+    else showMessage(`The service returned an error (status ${response.status}). Check the server log.`, "error");
+  } catch {
+    showMessage("The scoring service is not reachable. Check that it is running and try again.", "error");
+  } finally {
+    submit.disabled = false;
+  }
+});
+
+picker.addEventListener("change", () => fillOrder(samples[picker.selectedIndex].order));
+
+async function loadSamples() {
+  try {
+    samples = await (await fetch("/static/samples.json")).json();
+  } catch {
+    return;
+  }
+  for (const s of samples) picker.append(new Option(s.label));
+  fillOrder(samples[0].order);
+}
+
+loadSamples();
+</script>
+</body>
+</html>
